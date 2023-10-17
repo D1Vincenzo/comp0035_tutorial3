@@ -87,4 +87,5 @@ if __name__ == '__main__':
     # Problem 5 code
     # Print the unique values for the Type column.
     # The general syntax is: df['ColName'].unique()
-    print()
+    print("\nUnique values for Type:\n")
+    print(nulls_fixed_df['Type'].unique())
