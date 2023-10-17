@@ -60,10 +60,15 @@ def prepare_data(df):
     # Use `dropna` and specify to only remove  with null/Nan in the Participants (M) and Participants (F) columns
     # The general syntax is: df.dropna(subset=['AColName', 'AnotherColName'])
     # Remember: assign the result to a new DataFrame, or use the `inplace=True` attribute
+    df_prepared = df_prepared.dropna(subset=['Participants (M)', 'Participants (F)'])
+    
+
 
     # 3.2 Replace the NaN in Type column with 'Winter'
     # The general syntax is: df.fillna({'ColName': 'ValueToReplaceNull'})
     # Remember: assign the result to a new DataFrame, or use the `inplace=True` attribute
+    df_prepared = df_prepared.fillna({'Type': 'Winter'})
+
 
     return df_prepared
 
@@ -74,10 +79,15 @@ if __name__ == '__main__':
     # print_df_information(raw_df)
     dropped_cols_df = prepare_data(raw_df)
 
+    # print("\nPrepared DataFrame:\n")
+    # print(dropped_cols_df)
+
     # Problem 4
     # 1. Print the missing values in the DataFrame using .isna() or isnnull(). 'True' indicates a missing value.
-    print()  # add code inside the print
+    print('Missing values:\n')
+    print(raw_df.isna())
 
     # 2. Create a dataframe named `missing_rows` with only the rows that contain any missing values
-    missing_rows = ''  # Add code here, delete the ''
+    print('\nRows with missing values:\n')
+    missing_rows = raw_df[raw_df.isna().any(axis=1)]
     print(missing_rows)
