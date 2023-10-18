@@ -53,11 +53,17 @@ def prepare_data(df, df2):
     df_fillnans['Type'] = df_fillnans['Type'].str.strip()
 
     # 2. Merge the DataFrames using a left merge. See the tutorial instructions for details.
-    df_merged = ''
+    df_merged = df_fillnans.merge(df2, left_on='Country', right_on='region', how='left')
 
     # 3. Drop either the Country or region column (see problem 3)
 
-    df_prepared = df_merged
+    df_prepared = df_merged.drop(['region'], axis=1)
+
+    #  replace the NaN for ‘Great Britain’ with ‘GBR’, and for “Republic of Korea” use ‘KOR’. 
+    con_gb = df_prepared['Country'] == 'Great Britain'
+    con_kor = df_prepared['Country'] == 'Republic of Korea'
+    df_prepared['NOC'] = df_prepared['NOC'].mask(con_gb, 'GBR')
+    df_prepared['NOC'] = df_prepared['NOC'].mask(con_kor, 'KOR')
 
     return df_prepared
 
@@ -71,9 +77,15 @@ if __name__ == '__main__':
     # 1. Create a data frame with the 'NOC' and 'region' columns from 'data/noc_regions.csv'
     # Hint: Path(__file__).parent.parent.joinpath('data', 'noc_regions.csv') to reference the file
     # Hint: Use the `usecols=['Col','Col2']` attribute in `pd.read_csv`
+    raw_data_noc = Path(__file__).parent.parent.joinpath('data', 'noc_regions.csv')
+    noc_df = pd.read_csv(raw_data_noc, usecols=['NOC', 'region'])
+    
 
     # 4. Create the merged dataframe by passing df (events_df) and df2 (noc_df) to `prepare_data(df, f1)`
-
+    merged_df = prepare_data(events_df, noc_df)
     # 5. Print any rows in the merged DataFrame that have NaNs
-
+    if merged_df.isna().any().any():
+        missing_rows = merged_df[merged_df.isna().any(axis=1)]
+        print(missing_rows)
     # 6. Print all rows of the NOC DataFrame
+    # with pd.option_context('display.max_rows', None, ): print(noc_df)
