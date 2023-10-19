@@ -39,8 +39,11 @@ if __name__ == '__main__':
     prepared_df = pd.read_csv(prepared_data_file, parse_dates=['Start', 'End'], dtype={'Year': str})
 
     # 1. Create a box plot and show it
-
-    # 2. Modify the box plot to create separate plots for each variable using the argunent submplots=True
-
+    prepared_df.plot.box()
+    plt.show()
+    # 2. Modify the box plot to create separate plots for each variable using the argument subplots=True
+    prepared_df.plot.box(subplots=True)
+    plt.show()
     # 3. Save the image to file in the data directory
+    # plt.savefig(Path(__file__).parent.parent.joinpath('data', 'boxplot.png'))
 
