@@ -356,3 +356,4 @@ cython_debug/
 .idea/*
 .idea/
 solutions/
+.DS_Store
