@@ -79,7 +79,7 @@ def prepare_data(df, df2):
     # Hint: Define the file location using Pathlib.path
     # Hint: To avoid saving the pandas index column, use the `index=False` argument
 
-    return df_prepared
+    return df_prepared.to_csv(Path(__file__).parent.parent.joinpath('data', 'paralympics_prepared.csv'), index=False)
 
 
 if __name__ == '__main__':
